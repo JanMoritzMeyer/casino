@@ -1,6 +1,7 @@
 package de.janmoritzmeyer.casino;
 
 import java.awt.*;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -8,21 +9,34 @@ import javax.swing.*;
 // Klasse welche aus der JFrame Klasse erbt. Hier wird die de.janmoritzmeyer.casino.GUI erstellt
 
 public class GUI extends JFrame implements ActionListener {
-    //Buttons deklarieren
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-
-    //JLabel deklarieren
+    //Generelle Komponenten
+    private int money;
     private JLabel moneyLabel;
 
-    //Geld
-    private int money;
+    //Home Seite
+    private JButton jHomeButton1;
+    private JButton jHomeButton2;
+    private JButton jHomeButton3;
+
+    private JLabel welcomeString;
+
+    //Würfel Seite
+    private JButton jWuerfelButton1;
+    private JButton jWuerfelButton2;
+
+    private Wuerfeln wuerfelGame;
+
+
 
     public GUI(int x, int y){
+        wuerfelGame = new Wuerfeln();
         //50€ Startgeld
         money = 50;
+        //Das Fenster initialisieren
         initWindow(x,y);
+        //Die einzelnen Komponenten initialisieren
+        initJComponents();
+        //Das Home Menü aktivieren
         initHome();
     }
 
@@ -39,75 +53,86 @@ public class GUI extends JFrame implements ActionListener {
         this.moneyLabel.setText("Geld: "+money+"€");
     }
 
+    public void changeMoney(int money){
+        this.money += money;
+        this.moneyLabel.setText("Geld: "+this.money+"€");
+    }
+
     public void actionPerformed (ActionEvent ae){
-        if(ae.getSource() == this.jButton1){
+        if(ae.getSource() == this.jHomeButton1){
             this.initWuerfeln();
         }
-        else if(ae.getSource() == this.jButton2){
+        else if(ae.getSource() == this.jHomeButton2){
             setMoney( 40 );
         }
-        else if(ae.getSource() == this.jButton3){
-            setMoney( 60 );
+        else if(ae.getSource() == this.jHomeButton3){
+            changeMoney( 10 );
         }
     }
 
-    private void initHome() {
-        getContentPane().invalidate();
-        getContentPane().validate();
-        getContentPane().repaint();
-        getContentPane().removeAll();
-
+    //initialisieren der Bildschirm Objekte
+    private void initJComponents(){
         moneyLabel = new JLabel("Geld: "+money+"€");
         moneyLabel.setLocation( 700, 10 );
         moneyLabel.setSize( 100,10);
-        getContentPane().add(moneyLabel);
 
-        JLabel welcomeString = new JLabel( "Herzlich Willkommen "+System.getProperty("user.name")+" in JaMos Casino. Viel Spaß beim spielen" );
+        welcomeString = new JLabel( "Herzlich Willkommen "+System.getProperty("user.name")+" in JaMos Casino. Viel Spaß beim spielen" );
         welcomeString.setLocation( 0 ,50);
         welcomeString.setSize( 800,20);
         welcomeString.setHorizontalAlignment(SwingConstants.CENTER);
+
+        jHomeButton1 = new JButton();
+        jHomeButton1.setText("Würfeln");
+        jHomeButton1.setLocation( 250,150 );
+        jHomeButton1.setSize( 100,50 );
+        jHomeButton1.addActionListener( this);
+
+        jHomeButton2 = new JButton();
+        jHomeButton2.setText("Black Jack");
+        jHomeButton2.setLocation( 350,150 );
+        jHomeButton2.setSize( 100,50 );
+        jHomeButton2.addActionListener( this );
+
+        jHomeButton3 = new JButton();
+        jHomeButton3.setText("Roulette");
+        jHomeButton3.setLocation( 450,150 );
+        jHomeButton3.setSize( 100,50 );
+        jHomeButton3.addActionListener( this );
+
+        jWuerfelButton1 = new JButton();
+        jWuerfelButton1.setText("Black Jack");
+        jWuerfelButton1.setLocation( 350,150 );
+        jWuerfelButton1.setSize( 100,50 );
+        jWuerfelButton1.addActionListener( this );
+
+        jWuerfelButton2 = new JButton();
+        jWuerfelButton2.setText("Black Jack");
+        jWuerfelButton2.setLocation( 550,150 );
+        jWuerfelButton2.setSize( 100,50 );
+        jWuerfelButton2.addActionListener( this );
+    }
+
+    private void initHome() {
+        resetContentpane();
+
         getContentPane().add(welcomeString);
-
-        jButton1 = new JButton();
-        jButton1.setText("Würfeln");
-        jButton1.setLocation( 250,150 );
-        jButton1.setSize( 100,50 );
-        jButton1.addActionListener( this);
-        getContentPane().add(jButton1);
-
-        jButton2 = new JButton();
-        jButton2.setText("Black Jack");
-        jButton2.setLocation( 350,150 );
-        jButton2.setSize( 100,50 );
-        jButton2.addActionListener( this );
-        getContentPane().add(jButton2);
-
-        jButton3 = new JButton();
-        jButton3.setText("Roulette");
-        jButton3.setLocation( 450,150 );
-        jButton3.setSize( 100,50 );
-        jButton3.addActionListener( this );
-        getContentPane().add(jButton3);
+        getContentPane().add(jHomeButton1);
+        getContentPane().add(jHomeButton2);
+        getContentPane().add(jHomeButton3);
     }
 
     private void initWuerfeln(){
+        resetContentpane();
+        for (Component guielement:wuerfelGame.getGUIElements()) {
+            getContentPane().add(guielement);
+        }
+    }
+
+    private void resetContentpane(){
         getContentPane().invalidate();
         getContentPane().validate();
         getContentPane().repaint();
         getContentPane().removeAll();
-
-        JButton jButton4 = new JButton();
-        jButton4.setText("Black Jack");
-        jButton4.setLocation( 350,150 );
-        jButton4.setSize( 100,50 );
-        jButton4.addActionListener( this );
-        getContentPane().add(jButton4);
-
-        JButton jButton5 = new JButton();
-        jButton5.setText("Roulette");
-        jButton5.setLocation( 450,350 );
-        jButton5.setSize( 100,50 );
-        jButton5.addActionListener( this );
-        getContentPane().add(jButton5);
+        getContentPane().add(moneyLabel);
     }
 }
