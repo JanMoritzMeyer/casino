@@ -196,8 +196,8 @@ public class GUI extends Casino implements ActionListener {
 
     private void initGame(String game){
         resetContentpane();
-        addSlider();
         if (game == "w"){
+            addSlider();
             for (Component guielement:wuerfelGame.getGUIElements()) {
                 getContentPane().add(guielement);
             }
