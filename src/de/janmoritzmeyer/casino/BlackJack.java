@@ -10,51 +10,89 @@ import java.util.List;
 
 public class BlackJack extends Casino implements ActionListener{
 
-    private final LinkedList<Object> karten_crou;
+    private LinkedList<Object> karten_crou;
+    private LinkedList<Component> kartenobj_crou;
     private GUI gui;
     private JButton bleiben;
     private JButton nehmen;
+    private JButton home;
     private List<Component> karten;
     private int kartensumme;
     private int kartensumme_crou;
     private int asse;
+    private int asse_to1;
     private int asse_crou;
+    private int asse_crou_to1;
     private int cardx;
     private int cardx_crou;
+    private boolean firstgame;
 
     public BlackJack(GUI gui) {
         this.gui = gui;
+        firstgame = true;
+        startnewGame();
+        firstgame = false;
+    }
+
+    public void startnewGame(){
         karten = new ArrayList<>();
         kartensumme = 0;
         kartensumme_crou = 0;
         karten_crou = new LinkedList<>();
+        kartenobj_crou = new LinkedList<>();
         asse = 0;
+        asse_to1 = 0;
         asse_crou = 0;
-        asse = 0;
+        asse_crou_to1 = 0;
         cardx = 0;
         cardx_crou = 0;
-        startnewGame();
-    }
-
-    public void startnewGame(){
-        karteziehen_crou();
-    }
-
-    public void actionPerformed (ActionEvent ae){
-        if(ae.getSource() == this.bleiben){
-            while (kartensumme_crou < 17){
-                karteziehen_crou();
-                gui.reloadBlackJack();
-            }
-
-        }
-        else if(ae.getSource() == this.nehmen){
+        if (!firstgame){
+            karteziehen_crou();
             karteziehen();
         }
     }
 
-    private void aufdecken_crou(){
+    public void actionPerformed (ActionEvent ae){
+        if(ae.getSource() == this.bleiben){
+            int max = 17;
+            while (true){
+                while (kartensumme_crou < max){
+                    karteziehen_crou();
+                    gui.reloadBlackJack();
+                }
+                if (kartensumme_crou > 21 && asse_crou != 0){
+                    max = max + 10;
+                    asse_crou_to1++;
+                }
+                else if(asse_crou == 0){
+                    break;
+                }
+                else if(asse_crou == asse_crou_to1){
+                    break;
+                }
+            }
+            aufdecken_crou();
+            System.out.println( kartensumme_crou );
+        }
+        else if(ae.getSource() == this.nehmen){
+            karteziehen();
+        }
+        else if(ae.getSource() == this.home){
+            gui.initHome();
+        }
+    }
 
+    private void aufdecken_crou(){
+        cardx_crou = 0;
+        kartenobj_crou.clear();
+        for (Object cardnum: karten_crou){
+            int cardnum_int = (int) cardnum;
+            BlackJackCard card = new BlackJackCard( cardnum_int );
+            card.card.setLocation( cardx_crou,25 );
+            kartenobj_crou.add( card.card );
+            cardx_crou = cardx_crou + 100;
+        }
+        gui.reloadBlackJack();
     }
 
     private void karteziehen_crou(){
@@ -64,7 +102,7 @@ public class BlackJack extends Casino implements ActionListener{
         kartensumme_crou = kartensumme_crou + cardval;
         BlackJackCard card = new BlackJackCard( 14 );
         card.card.setLocation( cardx_crou,25 );
-        karten.add( card.card );
+        kartenobj_crou.add( card.card );
         cardx_crou = cardx_crou + 100;
     }
 
@@ -77,9 +115,23 @@ public class BlackJack extends Casino implements ActionListener{
         gui.reloadBlackJack();
         cardx = cardx + 100;
         System.out.println( kartensumme );
-        if (kartensumme > 21){
-            System.out.println( "verloren" );
+        if (kartensumme < 21){
+
         }
+        else if(kartensumme < (21 + asse*10)){
+            asse_to1++;
+        }
+        else if (kartensumme > 21 && asse == 0){
+            //Verloren
+            aufdecken_crou();
+        }
+    }
+
+    private void checkwin(){
+        kartensumme_crou = kartensumme_crou - asse_crou_to1*10;
+        kartensumme = kartensumme - asse_to1*10;
+        System.out.println( kartensumme_crou );
+        System.out.println( kartensumme );
     }
 
     public java.util.List<Component> getGUIElements(){
@@ -88,6 +140,15 @@ public class BlackJack extends Casino implements ActionListener{
         for (Component guielement:karten) {
             guilist.add( guielement );
         }
+        for (Component guielement:kartenobj_crou) {
+            guilist.add( guielement );
+        }
+
+        home = new JButton("<-");
+        home.setLocation( 0,0 );
+        home.setSize( 25,25 );
+        home.addActionListener( this );
+        guilist.add( home );
 
         bleiben = new JButton("bleiben");
         bleiben.setLocation( 50,325 );

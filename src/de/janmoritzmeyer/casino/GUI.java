@@ -164,6 +164,7 @@ public class GUI extends Casino implements ActionListener {
             }
         } else if (game == "b") {
             initBlackJackComponents();
+            blackjackGame.startnewGame();
         }
         else {
 
