@@ -1,6 +1,8 @@
 package de.janmoritzmeyer.casino;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,21 +16,26 @@ public class Wuerfeln extends Casino implements ActionListener{
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();
+    JButton button5 = new JButton();
     JLabel label1 = new JLabel();
     JLabel label2 = new JLabel();
     JLabel label3 = new JLabel();
     JLabel label4 = new JLabel();
     JLabel label5 = new JLabel();
     JLabel label6 = new JLabel();
-    JSlider slider1 = new JSlider();
+    JLabel label7 = new JLabel();
+    public JSlider slider1;
     private GUI gui;
+    protected boolean firstgame;
+    private BoundedRangeModel bRangeModel;
 
     public Wuerfeln(GUI gui){
+        firstgame = true;
         this.gui = gui;
     }
 
     public void actionPerformed (ActionEvent ae){
-        int einsatz = 5;
+        int einsatz = slider1.getValue();
         if(ae.getSource() == this.button1){
             wuerfeln(3,6, 9, einsatz);
         }
@@ -40,6 +47,9 @@ public class Wuerfeln extends Casino implements ActionListener{
         }
         else if(ae.getSource() == this.button4){
             wuerfeln(16,18, 20, einsatz);
+        }
+        else if(ae.getSource() == this.button5){
+            gui.initHome();
         }
     }
 
@@ -80,6 +90,11 @@ public class Wuerfeln extends Casino implements ActionListener{
         label6.setSize( 50,50);
         guilist.add( label6 );
 
+        label7 = new JLabel( String.valueOf( gui.getMoney()/2 ) );
+        label7.setLocation( 370, 235 );
+        label7.setSize( 50,50);
+        guilist.add( label7 );
+
         button1.setText("3-6 (x 9)");
         button1.setLocation( 100,200 );
         button1.setSize( 100,50 );
@@ -104,18 +119,40 @@ public class Wuerfeln extends Casino implements ActionListener{
         button4.addActionListener( this );
         guilist.add( button4 );
 
-        slider1.setMinimum( 1 );
-        slider1.setMaximum( 50 );
-        slider1.setValue( 25 );
+        button5.setText("<-");
+        button5.setLocation( 10,10 );
+        button5.setSize( 25,25 );
+        button5.addActionListener( this );
+        guilist.add( button5 );
+
+        bRangeModel = new DefaultBoundedRangeModel(gui.getMoney()/2, 1, 1, gui.getMoney()+1);
+        slider1 = new JSlider(bRangeModel);
         slider1.setLocation( 225, 255 );
         slider1.setSize( 310,50 );
         slider1.setPaintTicks(true);
         slider1.setPaintLabels(true);
         slider1.createStandardLabels(1);
+        slider1.addChangeListener( changeListner);
         guilist.add(slider1);
 
         return guilist;
     }
+
+    ChangeListener changeListner = new ChangeListener() {
+
+        @Override
+
+        public void stateChanged(ChangeEvent event) {
+            if (slider1.getValue() > gui.getMoney()){
+                slider1.setValue(gui.getMoney());
+
+            }
+            label7.setText( String.valueOf( slider1.getValue() ) );
+        }
+
+    };
+
+
 
     private ImageIcon getImage(int x){
         switch (x){
@@ -150,5 +187,9 @@ public class Wuerfeln extends Casino implements ActionListener{
         else {
             gui.changeMoney( -einsatz );
         }
+        bRangeModel.setValue( gui.getMoney()/2 );
+        bRangeModel.setMinimum( 1 );
+        bRangeModel.setMaximum( gui.getMoney()+1 );
+        label6.setText( String.valueOf( gui.getMoney() ) );
     }
 }

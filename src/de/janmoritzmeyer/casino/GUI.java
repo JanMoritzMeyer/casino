@@ -58,6 +58,7 @@ public class GUI extends Casino implements ActionListener {
             initHome();
             JOptionPane.showMessageDialog(this,
                     "Du hast dein ganzes Geld verloren. Du fängst wieder mit 50€ an");
+            setMoney( 50 );
         }
     }
 
@@ -94,11 +95,15 @@ public class GUI extends Casino implements ActionListener {
         moneyLabel = new JLabel("Geld: "+money+"€");
         moneyLabel.setLocation( 700, 10 );
         moneyLabel.setSize( 100,10);
+        moneyLabel.setForeground( Color.WHITE );
+        moneyLabel.setBackground( Color.BLACK );
 
         welcomeString = new JLabel( "Herzlich Willkommen "+System.getProperty("user.name")+" in JaMos Casino. Viel Spaß beim spielen" );
         welcomeString.setLocation( 0 ,50);
         welcomeString.setSize( 800,20);
         welcomeString.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomeString.setForeground( Color.WHITE );
+        welcomeString.setBackground( Color.BLACK );
 
         welcomeImage = new JLabel( "" );
         welcomeImage.setLocation( 0 ,0);
@@ -125,9 +130,9 @@ public class GUI extends Casino implements ActionListener {
         jHomeButton3.addActionListener( this );
     }
 
-    private void initHome() {
+    public void initHome() {
         resetContentpane();
-
+        moneyLabel.setForeground( Color.WHITE );
         getContentPane().add(welcomeString);
         getContentPane().add(jHomeButton1);
         getContentPane().add(jHomeButton2);
@@ -140,8 +145,10 @@ public class GUI extends Casino implements ActionListener {
         for (Component guielement:wuerfelGame.getGUIElements()) {
             getContentPane().add(guielement);
         }
-        JOptionPane.showMessageDialog(this,
-                "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
+        if (wuerfelGame.firstgame){
+            JOptionPane.showMessageDialog(this, "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
+            wuerfelGame.firstgame = false;
+        }
     }
 
     private void resetContentpane(){
@@ -149,6 +156,7 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().validate();
         getContentPane().repaint();
         getContentPane().removeAll();
+        moneyLabel.setForeground( Color.BLACK );
         getContentPane().add(moneyLabel);
     }
 
