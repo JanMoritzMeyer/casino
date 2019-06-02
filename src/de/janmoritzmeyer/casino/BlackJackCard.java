@@ -48,6 +48,9 @@ public class BlackJackCard extends Casino {
             case 13:
                 this.card.setIcon( scaleImage( "card_q.png",100,100 ) );
                 break;
+            case 14:
+                this.card.setIcon( scaleImage( "card_turned.png",100,100 ) );
+                break;
         }
     }
 }

@@ -141,8 +141,15 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().add(welcomeImage);
     }
 
+    private void initBlackJackComponents(){
+        resetContentpane();
+        for (Component guielement:blackjackGame.getGUIElements()) {
+            getContentPane().add(guielement);
+        }
+    }
+
     public void reloadBlackJack(){
-        initGame( "b" );
+        initBlackJackComponents();
     }
 
     private void initGame(String game){
@@ -156,9 +163,7 @@ public class GUI extends Casino implements ActionListener {
                 wuerfelGame.firstgame = false;
             }
         } else if (game == "b") {
-            for (Component guielement:blackjackGame.getGUIElements()) {
-                getContentPane().add(guielement);
-            }
+            initBlackJackComponents();
         }
         else {
 
