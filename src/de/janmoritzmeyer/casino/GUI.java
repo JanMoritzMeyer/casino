@@ -6,6 +6,8 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.applet.*;
 
 
@@ -30,7 +32,11 @@ public class GUI extends Casino implements ActionListener {
 
     private Wuerfeln wuerfelGame;
     private BlackJack blackjackGame;
-
+    protected JLabel label5;
+    protected JLabel label6;
+    protected JLabel label7;
+    protected DefaultBoundedRangeModel bRangeModel;
+    protected JSlider slider1;
 
 
     public GUI(int x, int y){
@@ -129,7 +135,43 @@ public class GUI extends Casino implements ActionListener {
         jHomeButton3.setLocation( 450,150 );
         jHomeButton3.setSize( 100,50 );
         jHomeButton3.addActionListener( this );
+
+        /* Einsatz Slider */
+        label5 = new JLabel("1");
+        label5.setLocation( 200, 250 );
+        label5.setSize( 50,50);
+
+        label6 = new JLabel( String.valueOf( getMoney() ) );
+        label6.setLocation( 550, 250 );
+        label6.setSize( 50,50);
+
+        label7 = new JLabel( String.valueOf( getMoney()/2 ) );
+        label7.setLocation( 370, 235 );
+        label7.setSize( 50,50);
+
+        bRangeModel = new DefaultBoundedRangeModel(getMoney()/2, 1, 1, getMoney()+1);
+        slider1 = new JSlider(bRangeModel);
+        slider1.setLocation( 225, 255 );
+        slider1.setSize( 310,50 );
+        slider1.setPaintTicks(true);
+        slider1.setPaintLabels(true);
+        slider1.createStandardLabels(1);
+        slider1.addChangeListener( changeListner);
     }
+
+    ChangeListener changeListner = new ChangeListener() {
+
+        @Override
+
+        public void stateChanged(ChangeEvent event) {
+            if (slider1.getValue() > getMoney()){
+                slider1.setValue(getMoney());
+
+            }
+            label7.setText( String.valueOf( slider1.getValue() ) );
+        }
+
+    };
 
     public void initHome() {
         resetContentpane();
@@ -154,6 +196,7 @@ public class GUI extends Casino implements ActionListener {
 
     private void initGame(String game){
         resetContentpane();
+        addSlider();
         if (game == "w"){
             for (Component guielement:wuerfelGame.getGUIElements()) {
                 getContentPane().add(guielement);
@@ -178,6 +221,13 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().removeAll();
         moneyLabel.setForeground( Color.BLACK );
         getContentPane().add(moneyLabel);
+    }
+
+    private void addSlider(){
+        getContentPane().add(slider1);
+        getContentPane().add(label5);
+        getContentPane().add(label6);
+        getContentPane().add(label7);
     }
 
 

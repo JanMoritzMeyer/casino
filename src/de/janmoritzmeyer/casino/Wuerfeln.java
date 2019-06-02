@@ -21,13 +21,8 @@ public class Wuerfeln extends Casino implements ActionListener{
     JLabel label2 = new JLabel();
     JLabel label3 = new JLabel();
     JLabel label4 = new JLabel();
-    JLabel label5 = new JLabel();
-    JLabel label6 = new JLabel();
-    JLabel label7 = new JLabel();
-    public JSlider slider1;
     private GUI gui;
     protected boolean firstgame;
-    private BoundedRangeModel bRangeModel;
 
     public Wuerfeln(GUI gui){
         firstgame = true;
@@ -35,7 +30,7 @@ public class Wuerfeln extends Casino implements ActionListener{
     }
 
     public void actionPerformed (ActionEvent ae){
-        int einsatz = slider1.getValue();
+        int einsatz = gui.slider1.getValue();
         if(ae.getSource() == this.button1){
             wuerfeln(3,6, 9, einsatz);
         }
@@ -80,21 +75,6 @@ public class Wuerfeln extends Casino implements ActionListener{
         label4.setSize( 50,50);
         guilist.add( label4 );
 
-        label5 = new JLabel("1");
-        label5.setLocation( 200, 250 );
-        label5.setSize( 50,50);
-        guilist.add( label5 );
-
-        label6 = new JLabel( String.valueOf( gui.getMoney() ) );
-        label6.setLocation( 550, 250 );
-        label6.setSize( 50,50);
-        guilist.add( label6 );
-
-        label7 = new JLabel( String.valueOf( gui.getMoney()/2 ) );
-        label7.setLocation( 370, 235 );
-        label7.setSize( 50,50);
-        guilist.add( label7 );
-
         button1.setText("3-6 (x 9)");
         button1.setLocation( 100,200 );
         button1.setSize( 100,50 );
@@ -125,32 +105,10 @@ public class Wuerfeln extends Casino implements ActionListener{
         button5.addActionListener( this );
         guilist.add( button5 );
 
-        bRangeModel = new DefaultBoundedRangeModel(gui.getMoney()/2, 1, 1, gui.getMoney()+1);
-        slider1 = new JSlider(bRangeModel);
-        slider1.setLocation( 225, 255 );
-        slider1.setSize( 310,50 );
-        slider1.setPaintTicks(true);
-        slider1.setPaintLabels(true);
-        slider1.createStandardLabels(1);
-        slider1.addChangeListener( changeListner);
-        guilist.add(slider1);
-
         return guilist;
     }
 
-    ChangeListener changeListner = new ChangeListener() {
 
-        @Override
-
-        public void stateChanged(ChangeEvent event) {
-            if (slider1.getValue() > gui.getMoney()){
-                slider1.setValue(gui.getMoney());
-
-            }
-            label7.setText( String.valueOf( slider1.getValue() ) );
-        }
-
-    };
 
 
 
@@ -189,9 +147,9 @@ public class Wuerfeln extends Casino implements ActionListener{
             gui.changeMoney( -einsatz );
             label1.setText( "Schade, vielleicht klappt es nächstes mal" );
         }
-        bRangeModel.setValue( gui.getMoney()/2 );
-        bRangeModel.setMinimum( 1 );
-        bRangeModel.setMaximum( gui.getMoney()+1 );
-        label6.setText( String.valueOf( gui.getMoney() ) );
+        gui.bRangeModel.setValue( gui.getMoney()/2 );
+        gui.bRangeModel.setMinimum( 1 );
+        gui.bRangeModel.setMaximum( gui.getMoney()+1 );
+        gui.label6.setText( String.valueOf( gui.getMoney() ) );
     }
 }
