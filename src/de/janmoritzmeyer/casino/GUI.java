@@ -29,11 +29,13 @@ public class GUI extends Casino implements ActionListener {
     private JButton jWuerfelButton2;
 
     private Wuerfeln wuerfelGame;
+    private BlackJack blackjackGame;
 
 
 
     public GUI(int x, int y){
         wuerfelGame = new Wuerfeln(this);
+        blackjackGame = new BlackJack(this);
         //50€ Startgeld
         money = 50;
         //Das Fenster initialisieren
@@ -79,10 +81,10 @@ public class GUI extends Casino implements ActionListener {
 
     public void actionPerformed (ActionEvent ae){
         if(ae.getSource() == this.jHomeButton1){
-            this.initWuerfeln();
+            this.initGame("w");
         }
         else if(ae.getSource() == this.jHomeButton2){
-            setMoney( 40 );
+            this.initGame("b");
         }
         else if(ae.getSource() == this.jHomeButton3){
             changeMoney( 10 );
@@ -139,14 +141,27 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().add(welcomeImage);
     }
 
-    private void initWuerfeln(){
+    public void reloadBlackJack(){
+        initGame( "b" );
+    }
+
+    private void initGame(String game){
         resetContentpane();
-        for (Component guielement:wuerfelGame.getGUIElements()) {
-            getContentPane().add(guielement);
+        if (game == "w"){
+            for (Component guielement:wuerfelGame.getGUIElements()) {
+                getContentPane().add(guielement);
+            }
+            if (wuerfelGame.firstgame){
+                JOptionPane.showMessageDialog(this, "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
+                wuerfelGame.firstgame = false;
+            }
+        } else if (game == "b") {
+            for (Component guielement:blackjackGame.getGUIElements()) {
+                getContentPane().add(guielement);
+            }
         }
-        if (wuerfelGame.firstgame){
-            JOptionPane.showMessageDialog(this, "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
-            wuerfelGame.firstgame = false;
+        else {
+
         }
     }
 

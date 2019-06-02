@@ -113,7 +113,7 @@ public class Wuerfeln extends Casino implements ActionListener{
         button3.addActionListener( this );
         guilist.add( button3 );
 
-        button4.setText("15-18 (x 20)");
+        button4.setText("16-18 (x 20)");
         button4.setLocation( 550,200 );
         button4.setSize( 100,50 );
         button4.addActionListener( this );
@@ -183,9 +183,11 @@ public class Wuerfeln extends Casino implements ActionListener{
         label4.setIcon( getImage(wuerfel3) );
         if (summe <= max && summe >= min){
             gui.changeMoney( factor*einsatz );
+            label1.setText( "Herzlichen Glückwunsch. Du hast "+factor*einsatz+"€ gewonnen" );
         }
         else {
             gui.changeMoney( -einsatz );
+            label1.setText( "Schade, vielleicht klappt es nächstes mal" );
         }
         bRangeModel.setValue( gui.getMoney()/2 );
         bRangeModel.setMinimum( 1 );
