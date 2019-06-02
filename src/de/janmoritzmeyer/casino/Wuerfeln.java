@@ -147,9 +147,6 @@ public class Wuerfeln extends Casino implements ActionListener{
             gui.changeMoney( -einsatz );
             label1.setText( "Schade, vielleicht klappt es nächstes mal" );
         }
-        gui.bRangeModel.setValue( gui.getMoney()/2 );
-        gui.bRangeModel.setMinimum( 1 );
-        gui.bRangeModel.setMaximum( gui.getMoney()+1 );
-        gui.label6.setText( String.valueOf( gui.getMoney() ) );
+        gui.updateSlider();
     }
 }

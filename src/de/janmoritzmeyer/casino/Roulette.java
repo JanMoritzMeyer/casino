@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Roulette extends Casino implements ActionListener {
     private JLabel welcomeString;
+    private JLabel ergebnisString;
     private JButton col1;
     private JButton col2;
     private JButton col3;
@@ -84,6 +85,8 @@ public class Roulette extends Casino implements ActionListener {
         else{
             loose(einsatz);
         }
+        ergebnisString.setText("Gedrehte Zahl: "+result);
+        gui.updateSlider();
     }
 
     private void win(int winsum){
@@ -98,6 +101,10 @@ public class Roulette extends Casino implements ActionListener {
 
     public java.util.List<Component> getGUIElements(){
         List<Component> guilist = new ArrayList<>();
+        ergebnisString = new JLabel(  );
+        ergebnisString.setSize( 150,10 );
+        ergebnisString.setLocation( 100,200 );
+        guilist.add( ergebnisString );
         home = new JButton( "<-" );
         home.addActionListener( this );
         home.setSize( 25,25 );
@@ -147,7 +154,7 @@ public class Roulette extends Casino implements ActionListener {
                 "1-18 oder 19-36: x1<br>" +
                 "gerade/ungerade: x1<br>" +
                 "schwarz/rot: x1<br>");
-        faktoren.setLocation( 10,10 );
+        faktoren.setLocation( 10,25 );
         faktoren.setSize( 200,150 );
         guilist.add( faktoren );
         return guilist;

@@ -249,5 +249,10 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().add(label7);
     }
 
-
+    public void updateSlider(){
+        bRangeModel.setValue( getMoney()/2 );
+        bRangeModel.setMinimum( 1 );
+        bRangeModel.setMaximum( getMoney()+1 );
+        label6.setText( String.valueOf( getMoney() ) );
+    }
 }
