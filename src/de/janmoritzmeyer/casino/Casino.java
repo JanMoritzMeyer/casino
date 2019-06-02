@@ -2,6 +2,7 @@ package de.janmoritzmeyer.casino;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Casino extends JFrame {
@@ -22,12 +23,13 @@ public class Casino extends JFrame {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    protected JButton robutton(String text, int xpos, int ypos, int width, int height){
+    protected JButton robutton(String text, int xpos, int ypos, int width, int height, ActionListener actionListener){
         JButton button = new JButton( text );
         button.setSize( width, height );
         button.setLocation( xpos, ypos );
         button.setBackground( Color.GREEN );
         button.setOpaque(true);
+        button.addActionListener( actionListener );
         return button;
     }
 
