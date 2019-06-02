@@ -1,10 +1,13 @@
 package de.janmoritzmeyer.casino;
 
 import java.awt.*;
+import java.io.File;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.applet.*;
+
 
 // Klasse welche aus der JFrame Klasse erbt. Hier wird die de.janmoritzmeyer.casino.GUI erstellt
 
@@ -12,6 +15,7 @@ public class GUI extends JFrame implements ActionListener {
     //Generelle Komponenten
     private int money;
     private JLabel moneyLabel;
+    private AudioClip helloClip;
 
     //Home Seite
     private JButton jHomeButton1;
@@ -38,6 +42,9 @@ public class GUI extends JFrame implements ActionListener {
         initJComponents();
         //Das Home Menü aktivieren
         initHome();
+
+
+
     }
 
     private void initWindow(int x, int y){
@@ -126,6 +133,8 @@ public class GUI extends JFrame implements ActionListener {
         for (Component guielement:wuerfelGame.getGUIElements()) {
             getContentPane().add(guielement);
         }
+        JOptionPane.showMessageDialog(this,
+                "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
     }
 
     private void resetContentpane(){
