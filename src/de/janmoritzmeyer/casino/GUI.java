@@ -11,7 +11,7 @@ import java.applet.*;
 
 // Klasse welche aus der JFrame Klasse erbt. Hier wird die de.janmoritzmeyer.casino.GUI erstellt
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends Casino implements ActionListener {
     //Generelle Komponenten
     private int money;
     private JLabel moneyLabel;
@@ -23,6 +23,7 @@ public class GUI extends JFrame implements ActionListener {
     private JButton jHomeButton3;
 
     private JLabel welcomeString;
+    private JLabel welcomeImage;
 
     //Würfel Seite
     private JButton jWuerfelButton1;
@@ -77,7 +78,7 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
-    //initialisieren der Bildschirm Objekte
+    //initialisieren der Home Bildschirm Objekte
     private void initJComponents(){
         moneyLabel = new JLabel("Geld: "+money+"€");
         moneyLabel.setLocation( 700, 10 );
@@ -87,6 +88,14 @@ public class GUI extends JFrame implements ActionListener {
         welcomeString.setLocation( 0 ,50);
         welcomeString.setSize( 800,20);
         welcomeString.setHorizontalAlignment(SwingConstants.CENTER);
+
+        welcomeImage = new JLabel( "" );
+        welcomeImage.setLocation( 0 ,0);
+        welcomeImage.setSize( 800,400);
+        welcomeImage.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomeImage.setIcon(scaleImage("start_background.jpg",800,400));
+
+
 
         jHomeButton1 = new JButton();
         jHomeButton1.setText("Würfeln");
@@ -105,18 +114,6 @@ public class GUI extends JFrame implements ActionListener {
         jHomeButton3.setLocation( 450,150 );
         jHomeButton3.setSize( 100,50 );
         jHomeButton3.addActionListener( this );
-
-        jWuerfelButton1 = new JButton();
-        jWuerfelButton1.setText("Black Jack");
-        jWuerfelButton1.setLocation( 350,150 );
-        jWuerfelButton1.setSize( 100,50 );
-        jWuerfelButton1.addActionListener( this );
-
-        jWuerfelButton2 = new JButton();
-        jWuerfelButton2.setText("Black Jack");
-        jWuerfelButton2.setLocation( 550,150 );
-        jWuerfelButton2.setSize( 100,50 );
-        jWuerfelButton2.addActionListener( this );
     }
 
     private void initHome() {
@@ -126,6 +123,7 @@ public class GUI extends JFrame implements ActionListener {
         getContentPane().add(jHomeButton1);
         getContentPane().add(jHomeButton2);
         getContentPane().add(jHomeButton3);
+        getContentPane().add(welcomeImage);
     }
 
     private void initWuerfeln(){
@@ -144,4 +142,6 @@ public class GUI extends JFrame implements ActionListener {
         getContentPane().removeAll();
         getContentPane().add(moneyLabel);
     }
+
+
 }

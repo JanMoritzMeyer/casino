@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
-public class Wuerfeln implements ActionListener{
+public class Wuerfeln extends Casino implements ActionListener{
 
     JButton button1 = new JButton();
     JButton button2 = new JButton();
@@ -42,8 +42,7 @@ public class Wuerfeln implements ActionListener{
         guilist.add( label1 );
 
         label2 = new JLabel("1");
-        ImageIcon imgThisImg = new ImageIcon(""));
-        label2.setIcon(imgThisImg);
+        label2.setIcon(scaleImage("dice_1.png",100,10));
         label2.setLocation( 300, 100 );
         label2.setSize( 100,10);
         guilist.add( label2 );
