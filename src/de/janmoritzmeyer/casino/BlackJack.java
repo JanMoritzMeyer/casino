@@ -25,6 +25,7 @@ public class BlackJack extends Casino implements ActionListener{
     private int cardx;
     private int cardx_crou;
     private boolean firstload;
+    private boolean firstgame;
     private int einsatz;
     private JLabel croupier;
     private JLabel self;
@@ -34,6 +35,7 @@ public class BlackJack extends Casino implements ActionListener{
         firstload = true;
         startnewGame();
         firstload = false;
+        firstgame = true;
     }
 
     public void startnewGame(){
@@ -49,10 +51,17 @@ public class BlackJack extends Casino implements ActionListener{
         cardx = 0;
         cardx_crou = 0;
         einsatz = 0;
+        if (firstgame){
+            JOptionPane.showMessageDialog(this, "Herzlich Willkommen bei Black Jack. Das Ziel ist es einen Kartenwert von 21 zu erzielen. Bilder zählen 10, Die Zahlen den Zahlenwert und Asse 1 oder 11. Dein Kartenwert darf 21 nicht übersteigen");
+            firstgame = false;
+        }
         if (!firstload){
             Object antwort = JOptionPane.showInputDialog(null, "Wieviel € möchtest du setzen? Min. 1€ Max. "+this.gui.getMoney()+"€ (Nur die Zahl eingeben)");
             try {
                 einsatz = Integer.parseInt((String) antwort);
+                if (einsatz > gui.getMoney() || einsatz < 0){
+                    einsatz = 0;
+                }
             } catch (Exception e) {
                 einsatz = 0;
             }
@@ -79,6 +88,9 @@ public class BlackJack extends Casino implements ActionListener{
                 else if(asse_crou == asse_crou_to1){
                     break;
                 }
+                else if(kartensumme_crou >= 17){
+                    break;
+                }
             }
             aufdecken_crou();
         }
@@ -93,7 +105,7 @@ public class BlackJack extends Casino implements ActionListener{
         for (Object cardnum: karten_crou){
             int cardnum_int = (int) cardnum;
             BlackJackCard card = new BlackJackCard( cardnum_int );
-            card.card.setLocation( cardx_crou,25 );
+            card.card.setLocation( cardx_crou,50 );
             kartenobj_crou.add( card.card );
             cardx_crou = cardx_crou + 100;
         }
@@ -123,7 +135,7 @@ public class BlackJack extends Casino implements ActionListener{
         if (kartensumme < 21){
 
         }
-        else if(kartensumme < (21 + asse*10)){
+        else if(kartensumme <= (21 + asse*10)){
             asse_to1++;
         }
         else if (kartensumme > 21 && asse == 0){
@@ -139,7 +151,7 @@ public class BlackJack extends Casino implements ActionListener{
             won();
         }
         else if(kartensumme_crou - 21 == kartensumme - 21){
-
+            draw();
         }
         else if(kartensumme_crou - 21 > kartensumme - 21){
             won();
@@ -161,9 +173,11 @@ public class BlackJack extends Casino implements ActionListener{
     }
 
     private void loose(){
-        JOptionPane.showMessageDialog(this, "Du hast verloren. Viel Glück beim nächsten mal");
+        if(!(gui.getMoney()-einsatz <= 0)){
+            JOptionPane.showMessageDialog(this, "Du hast verloren. Viel Glück beim nächsten mal");
+            gui.initHome();
+        }
         gui.changeMoney( -einsatz );
-        gui.initHome();
     }
 
     public java.util.List<Component> getGUIElements(){
