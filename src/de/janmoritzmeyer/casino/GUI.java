@@ -211,7 +211,7 @@ public class GUI extends Casino implements ActionListener {
             blackjackGame.startnewGame();
         }
         else if(game == "r"){
-            addSlider(-200,0);
+            addSlider(-200,50);
             for (Component guielement:rouletteGame.getGUIElements()) {
                 getContentPane().add(guielement);
             }
@@ -234,8 +234,8 @@ public class GUI extends Casino implements ActionListener {
         if (x != 0 && x!= 0){
             slider1.setLocation( 225+x, 255+y );
             label7.setLocation( 370+x, 235+y );
-            label6.setLocation( 550+x, 250+y );
-            label5.setLocation( 200+x, 250+y );
+            label6.setLocation( 540+x, 250+y );
+            label5.setLocation( 210+x, 250+y );
         }
         else {
             slider1.setLocation( 225, 255 );
