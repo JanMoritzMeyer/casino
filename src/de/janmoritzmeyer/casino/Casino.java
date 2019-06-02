@@ -22,4 +22,13 @@ public class Casino extends JFrame {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    protected JButton robutton(String text, int xpos, int ypos, int width, int height){
+        JButton button = new JButton( text );
+        button.setSize( width, height );
+        button.setLocation( xpos, ypos );
+        button.setBackground( Color.GREEN );
+        button.setOpaque(true);
+        return button;
+    }
+
 }

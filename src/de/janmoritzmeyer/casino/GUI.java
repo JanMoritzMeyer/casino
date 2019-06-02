@@ -143,20 +143,16 @@ public class GUI extends Casino implements ActionListener {
 
         /* Einsatz Slider */
         label5 = new JLabel("1");
-        label5.setLocation( 200, 250 );
         label5.setSize( 50,50);
 
         label6 = new JLabel( String.valueOf( getMoney() ) );
-        label6.setLocation( 550, 250 );
         label6.setSize( 50,50);
 
         label7 = new JLabel( String.valueOf( getMoney()/2 ) );
-        label7.setLocation( 370, 235 );
         label7.setSize( 50,50);
 
         bRangeModel = new DefaultBoundedRangeModel(getMoney()/2, 1, 1, getMoney()+1);
         slider1 = new JSlider(bRangeModel);
-        slider1.setLocation( 225, 255 );
         slider1.setSize( 310,50 );
         slider1.setPaintTicks(true);
         slider1.setPaintLabels(true);
@@ -202,7 +198,7 @@ public class GUI extends Casino implements ActionListener {
     private void initGame(String game){
         resetContentpane();
         if (game == "w"){
-            addSlider();
+            addSlider(0,0);
             for (Component guielement:wuerfelGame.getGUIElements()) {
                 getContentPane().add(guielement);
             }
@@ -215,7 +211,7 @@ public class GUI extends Casino implements ActionListener {
             blackjackGame.startnewGame();
         }
         else if(game == "r"){
-            addSlider();
+            addSlider(-200,0);
             for (Component guielement:rouletteGame.getGUIElements()) {
                 getContentPane().add(guielement);
             }
@@ -234,7 +230,19 @@ public class GUI extends Casino implements ActionListener {
         getContentPane().add(moneyLabel);
     }
 
-    private void addSlider(){
+    private void addSlider(int x, int y){
+        if (x != 0 && x!= 0){
+            slider1.setLocation( 225+x, 255+y );
+            label7.setLocation( 370+x, 235+y );
+            label6.setLocation( 550+x, 250+y );
+            label5.setLocation( 200+x, 250+y );
+        }
+        else {
+            slider1.setLocation( 225, 255 );
+            label7.setLocation( 370, 235 );
+            label6.setLocation( 550, 250 );
+            label5.setLocation( 200, 250 );
+        }
         getContentPane().add(slider1);
         getContentPane().add(label5);
         getContentPane().add(label6);
