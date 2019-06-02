@@ -24,6 +24,7 @@ public class Roulette extends Casino implements ActionListener {
     private GUI gui;
     private JButton ro_pain;
     private JButton ro_pain_0;
+    private JButton home;
 
     public Roulette(GUI gui){
         this.gui = gui;
@@ -32,7 +33,10 @@ public class Roulette extends Casino implements ActionListener {
     public void actionPerformed (ActionEvent ae){
         int result = random( 0,36 );
         int einsatz = gui.slider1.getValue();
-        if (ae.getSource() == col1 && (result-1)%3 == 0){
+        if (ae.getSource() == home){
+            gui.initHome();
+        }
+        else if (ae.getSource() == col1 && (result-1)%3 == 0){
             win(einsatz*2);
         }
         else if (ae.getSource() == col2 && (result-2)%3 == 0){
@@ -94,7 +98,11 @@ public class Roulette extends Casino implements ActionListener {
 
     public java.util.List<Component> getGUIElements(){
         List<Component> guilist = new ArrayList<>();
-
+        home = new JButton( "<-" );
+        home.addActionListener( this );
+        home.setSize( 25,25 );
+        home.setLocation( 0,0 );
+        guilist.add( home );
         welcomeString = new JLabel("Herzlich Willkommen beim Roulette. Bitte setze auf ein Feld");
         welcomeString.setLocation( 150,10 );
         welcomeString.setSize( 500,15 );
