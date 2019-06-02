@@ -15,7 +15,6 @@ public class GUI extends Casino implements ActionListener {
     //Generelle Komponenten
     private int money;
     private JLabel moneyLabel;
-    private AudioClip helloClip;
 
     //Home Seite
     private JButton jHomeButton1;
