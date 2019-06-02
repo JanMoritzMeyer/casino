@@ -34,7 +34,7 @@ public class GUI extends Casino implements ActionListener {
 
 
     public GUI(int x, int y){
-        wuerfelGame = new Wuerfeln();
+        wuerfelGame = new Wuerfeln(this);
         //50€ Startgeld
         money = 50;
         //Das Fenster initialisieren
@@ -43,9 +43,6 @@ public class GUI extends Casino implements ActionListener {
         initJComponents();
         //Das Home Menü aktivieren
         initHome();
-
-
-
     }
 
     private void initWindow(int x, int y){
@@ -56,14 +53,28 @@ public class GUI extends Casino implements ActionListener {
         this.setSize(x, y);
     }
 
+    private void checkMoney(){
+        if (money <= 0){
+            initHome();
+            JOptionPane.showMessageDialog(this,
+                    "Du hast dein ganzes Geld verloren. Du fängst wieder mit 50€ an");
+        }
+    }
+
+    public int getMoney(){
+        return money;
+    }
+
     public void setMoney(int money){
         this.money = money;
         this.moneyLabel.setText("Geld: "+money+"€");
+        checkMoney();
     }
 
     public void changeMoney(int money){
         this.money += money;
         this.moneyLabel.setText("Geld: "+this.money+"€");
+        checkMoney();
     }
 
     public void actionPerformed (ActionEvent ae){
@@ -94,8 +105,6 @@ public class GUI extends Casino implements ActionListener {
         welcomeImage.setSize( 800,400);
         welcomeImage.setHorizontalAlignment(SwingConstants.CENTER);
         welcomeImage.setIcon(scaleImage("start_background.jpg",800,400));
-
-
 
         jHomeButton1 = new JButton();
         jHomeButton1.setText("Würfeln");

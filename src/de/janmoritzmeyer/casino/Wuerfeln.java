@@ -7,33 +7,44 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
+
 public class Wuerfeln extends Casino implements ActionListener{
 
     JButton button1 = new JButton();
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();
-    JButton button5 = new JButton();
-    JButton button6 = new JButton();
     JLabel label1 = new JLabel();
     JLabel label2 = new JLabel();
     JLabel label3 = new JLabel();
     JLabel label4 = new JLabel();
+    JLabel label5 = new JLabel();
+    JLabel label6 = new JLabel();
+    JSlider slider1 = new JSlider();
+    private GUI gui;
 
-    public Wuerfeln(){
-
+    public Wuerfeln(GUI gui){
+        this.gui = gui;
     }
 
     public void actionPerformed (ActionEvent ae){
+        int einsatz = 5;
         if(ae.getSource() == this.button1){
-
+            wuerfeln(3,6, 9, einsatz);
         }
-        else if(ae.getSource() == this.button1){
+        else if(ae.getSource() == this.button2){
+            wuerfeln(7,10, 2, einsatz);
+        }
+        else if(ae.getSource() == this.button3){
+            wuerfeln(11,15, 3, einsatz);
+        }
+        else if(ae.getSource() == this.button4){
+            wuerfeln(16,18, 20, einsatz);
         }
     }
 
     public List<Component> getGUIElements(){
-        List<Component> guilist = new ArrayList<Component>();
+        List<Component> guilist = new ArrayList<>();
 
         label1 = new JLabel("Herzlich Willkommen beim Würfeln. Zum spielen wähle eine Augenzahl");
         label1.setLocation( 100, 50 );
@@ -41,21 +52,33 @@ public class Wuerfeln extends Casino implements ActionListener{
         label1.setHorizontalAlignment(JLabel.CENTER);
         guilist.add( label1 );
 
-        label2 = new JLabel("1");
-        label2.setIcon(scaleImage("dice_1.png",100,10));
-        label2.setLocation( 300, 100 );
-        label2.setSize( 100,10);
+        label2 = new JLabel("");
+        label2.setIcon(scaleImage("dice_1.png",50,50));
+        label2.setLocation( 250, 100 );
+        label2.setSize( 50,50);
         guilist.add( label2 );
 
-        label3 = new JLabel("2");
-        label3.setLocation( 400, 100 );
-        label3.setSize( 100,10);
+        label3 = new JLabel("");
+        label3.setIcon(scaleImage("dice_2.png",50,50));
+        label3.setLocation( 350, 100 );
+        label3.setSize( 50,50);
         guilist.add( label3 );
 
-        label4 = new JLabel("3");
-        label4.setLocation( 500, 100 );
-        label4.setSize( 100,10);
+        label4 = new JLabel("");
+        label4.setIcon(scaleImage("dice_3.png",50,50));
+        label4.setLocation( 450, 100 );
+        label4.setSize( 50,50);
         guilist.add( label4 );
+
+        label5 = new JLabel("1");
+        label5.setLocation( 200, 250 );
+        label5.setSize( 50,50);
+        guilist.add( label5 );
+
+        label6 = new JLabel( String.valueOf( gui.getMoney() ) );
+        label6.setLocation( 550, 250 );
+        label6.setSize( 50,50);
+        guilist.add( label6 );
 
         button1.setText("3-6 (x 9)");
         button1.setLocation( 100,200 );
@@ -69,7 +92,7 @@ public class Wuerfeln extends Casino implements ActionListener{
         button2.addActionListener( this );
         guilist.add( button2 );
 
-        button3.setText("12-15 (x 3)");
+        button3.setText("11-15 (x 3)");
         button3.setLocation( 400,200 );
         button3.setSize( 100,50 );
         button3.addActionListener( this );
@@ -81,6 +104,51 @@ public class Wuerfeln extends Casino implements ActionListener{
         button4.addActionListener( this );
         guilist.add( button4 );
 
+        slider1.setMinimum( 1 );
+        slider1.setMaximum( 50 );
+        slider1.setValue( 25 );
+        slider1.setLocation( 225, 255 );
+        slider1.setSize( 310,50 );
+        slider1.setPaintTicks(true);
+        slider1.setPaintLabels(true);
+        slider1.createStandardLabels(1);
+        guilist.add(slider1);
+
         return guilist;
+    }
+
+    private ImageIcon getImage(int x){
+        switch (x){
+            case 1:
+                return scaleImage("dice_1.png",50,50);
+            case 2:
+                return scaleImage("dice_2.png",50,50);
+            case 3:
+                return scaleImage("dice_3.png",50,50);
+            case 4:
+                return scaleImage("dice_4.png",50,50);
+            case 5:
+                return scaleImage("dice_5.png",50,50);
+            case 6:
+                return scaleImage("dice_6.png",50,50);
+            default:
+                return scaleImage("",50,50);
+        }
+    }
+
+    private void wuerfeln(int min, int max, int factor, int einsatz) {
+        int wuerfel1 = random(1,6);
+        int wuerfel2 = random(1,6);
+        int wuerfel3 = random(1,6);
+        int summe = wuerfel1 + wuerfel2 + wuerfel3;
+        label2.setIcon( getImage(wuerfel1) );
+        label3.setIcon( getImage(wuerfel2) );
+        label4.setIcon( getImage(wuerfel3) );
+        if (summe <= max && summe >= min){
+            gui.changeMoney( factor*einsatz );
+        }
+        else {
+            gui.changeMoney( -einsatz );
+        }
     }
 }
