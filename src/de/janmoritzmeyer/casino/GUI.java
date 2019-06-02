@@ -32,6 +32,7 @@ public class GUI extends Casino implements ActionListener {
 
     private Wuerfeln wuerfelGame;
     private BlackJack blackjackGame;
+    private Roulette rouletteGame;
     protected JLabel label5;
     protected JLabel label6;
     protected JLabel label7;
@@ -42,6 +43,8 @@ public class GUI extends Casino implements ActionListener {
     public GUI(int x, int y){
         wuerfelGame = new Wuerfeln(this);
         blackjackGame = new BlackJack(this);
+        rouletteGame = new Roulette(this);
+
         //50€ Startgeld
         money = 50;
         //Das Fenster initialisieren
@@ -95,7 +98,7 @@ public class GUI extends Casino implements ActionListener {
             this.initGame("b");
         }
         else if(ae.getSource() == this.jHomeButton3){
-            changeMoney( 10 );
+            this.initGame( "r" );
         }
     }
 
@@ -210,6 +213,12 @@ public class GUI extends Casino implements ActionListener {
         } else if (game == "b") {
             initBlackJackComponents();
             blackjackGame.startnewGame();
+        }
+        else if(game == "r"){
+            addSlider();
+            for (Component guielement:rouletteGame.getGUIElements()) {
+                getContentPane().add(guielement);
+            }
         }
         else {
 
