@@ -142,13 +142,13 @@ public class GUI extends Casino implements ActionListener {
         jHomeButton3.addActionListener( this );
 
         /* Einsatz Slider */
-        label5 = new JLabel("1");
+        label5 = new JLabel("1 €");
         label5.setSize( 50,50);
 
-        label6 = new JLabel( String.valueOf( getMoney() ) );
+        label6 = new JLabel( ( getMoney() )+"€" );
         label6.setSize( 50,50);
 
-        label7 = new JLabel( String.valueOf( getMoney()/2 ) );
+        label7 = new JLabel( ( getMoney()/2 )+"€" );
         label7.setSize( 50,50);
 
         bRangeModel = new DefaultBoundedRangeModel(getMoney()/2, 1, 1, getMoney()+1);
@@ -169,7 +169,7 @@ public class GUI extends Casino implements ActionListener {
                 slider1.setValue(getMoney());
 
             }
-            label7.setText( String.valueOf( slider1.getValue() ) );
+            label7.setText( String.valueOf( slider1.getValue()+"€" ) );
         }
 
     };

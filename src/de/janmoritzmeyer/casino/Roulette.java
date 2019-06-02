@@ -27,7 +27,9 @@ public class Roulette extends Casino implements ActionListener {
     }
 
     public void actionPerformed (ActionEvent ae){
+        if (ae.getSource() == col1){
 
+        }
     }
 
     public java.util.List<Component> getGUIElements(){
@@ -44,7 +46,7 @@ public class Roulette extends Casino implements ActionListener {
         ro_pain_0.setOpaque(true);
         guilist.add( ro_pain_0 );
         for ( int zahl = 1; zahl <= 36; zahl ++ ) {
-            JButton ro_pain = new JButton( String.valueOf( zahl )+" (x 40)" );
+            JButton ro_pain = new JButton( String.valueOf( zahl ) );
             ro_pain.setLocation( 500+((zahl-1)%3)*75, 50+(((int) Math.ceil(((zahl-1)/3)))*25) );
             ro_pain.setSize( 75,25 );
             if (getColor( zahl ) == 1){
@@ -68,6 +70,15 @@ public class Roulette extends Casino implements ActionListener {
         guilist.add( red=robutton("rot", 375, 200, 75, 50) );
         guilist.add( uneven=robutton("ungerade", 375, 250, 75, 50) );
         guilist.add( ue18=robutton("19-36", 375, 300, 75, 50) );
+        JLabel faktoren = new JLabel( "<html><body><h2>Auszahlungsquoten</h2>" +
+                "einzelne Zahl: x35<br>" +
+                "12er Bereich: x2<br>" +
+                "1-18 oder 19-36: x1<br>" +
+                "gerade/ungerade: x1<br>" +
+                "schwarz/rot: x1<br>");
+        faktoren.setLocation( 10,10 );
+        faktoren.setSize( 200,150 );
+        guilist.add( faktoren );
         return guilist;
     }
 
