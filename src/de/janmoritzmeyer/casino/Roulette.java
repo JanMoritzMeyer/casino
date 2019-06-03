@@ -26,6 +26,7 @@ public class Roulette extends SuperCasino implements ActionListener {
     private JButton ro_pain;
     private JButton ro_pain_0;
     private JButton home;
+    private JLabel background;
 
     public Roulette(GUI gui){
         this.gui = gui;
@@ -184,6 +185,12 @@ public class Roulette extends SuperCasino implements ActionListener {
         faktoren.setLocation( 10,25 );
         faktoren.setSize( 200,150 );
         guilist.add( faktoren );
+        background = new JLabel("");
+        background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
+        background.setLocation( 0,0 );
+        background.setSize( 800,400 );
+        background.setBackground( Color.GREEN );
+        guilist.add( background );
         return guilist;
     }
 
