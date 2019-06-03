@@ -115,10 +115,10 @@ public class Roulette extends SuperCasino implements ActionListener {
         //Für den ergebnisString wird außerdem noch die Farbe bestimmt
         String res_color = "";
         if (getColor( result ) == 0){
-            res_color = "Rot";
+            res_color = "Schwarz";
         }
         else if(getColor( result ) == 1){
-            res_color = "Schwarz";
+            res_color = "Rot";
         }
         //Außerdem wird noch bestimmt ob die Zahl gerade, ungerade oder 0  ist
         String res_gerade = "";
