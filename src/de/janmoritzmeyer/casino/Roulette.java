@@ -240,12 +240,8 @@ public class Roulette extends SuperCasino implements ActionListener {
         faktoren.setSize( 200,150 );
         //Die Faktoren zur Liste hinzufügen
         guilist.add( faktoren );
-        //Hintergrund setzen
-        background = new JLabel("");
-        background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
-        background.setLocation( 0,0 );
-        background.setSize( 800,400 );
-        background.setBackground( Color.GREEN );
+        //Hintergrund mithilfe der Funktion setzen
+        background = greenBackground();
         guilist.add( background );
 
         //Liste zurückgeben

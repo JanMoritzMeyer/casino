@@ -334,12 +334,8 @@ public class BlackJack extends SuperCasino implements ActionListener{
         nehmen.addActionListener( this );
         guilist.add( nehmen );
 
-        //Hintergrund konfigurieren
-        background = new JLabel("");
-        background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
-        background.setLocation( 0,0 );
-        background.setSize( 800,400 );
-        background.setBackground( Color.GREEN );
+        //Hintergrund aus der Funktion nehmen
+        background = greenBackground();
         guilist.add( background );
 
         //Liste zurückgeben
