@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Roulette extends SuperCasino implements ActionListener {
+    //JLabel für die welcome und ergebnis Strings deklarieren
     private JLabel welcomeString;
     private JLabel ergebnisString;
+    //JButtons für die jeweiligen Ereignisse deklarieren
     private JButton col1;
     private JButton col2;
     private JButton col3;
@@ -22,31 +24,44 @@ public class Roulette extends SuperCasino implements ActionListener {
     private JButton red;
     private JButton u19;
     private JButton ue18;
-    private GUI gui;
     private JButton ro_pain;
     private JButton ro_pain_0;
+    //JButton für das Laden des HomeScreens deklarieren
     private JButton home;
+    //JLabel für den Hintergrund deklarieren
     private JLabel background;
+    //GUI deklarieren, damit unter anderem auf die changeMoney Funktion zugegriffen werden kann
+    private GUI gui;
 
+    //Konstruktor welcher die Verknüpfung für die gui herstellt
     public Roulette(GUI gui){
         this.gui = gui;
     }
 
+    //Funktion die aufgerufen wird, sobald ein Button geklickt wird
     public void actionPerformed (ActionEvent ae){
+        //Zahl ziehen
         int result = random( 0,36 );
+        //Einsatz von Slider abrufen
         int einsatz = gui.slider1.getValue();
+        //Wenn nicht nach Hause Button gedrückt wurde
         if (ae.getSource() != home){
+            //Sound abspielen
             audioPlayer("roulette_spin.wav", false);
+            //Warten bis der Sound zu Ende abgespielt wurde
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        //Wenn nach Hause BUtton gedrückt wurde, Home Screen laden
         if (ae.getSource() == home){
             gui.initHome();
         }
+        //Überprüfung für die jeweiligen Ereignisse bei entsprechendem Knopfdruck
         else if (ae.getSource() == col1 && (result-1)%3 == 0){
+            //Wenn richtig gesetzt wurde und das Ereignis auftritt win Funktion mit dem Gewinn aufrufen
             win(einsatz*2);
         }
         else if (ae.getSource() == col2 && (result-2)%3 == 0){
@@ -85,15 +100,19 @@ public class Roulette extends SuperCasino implements ActionListener {
         else if(ae.getSource() == ro_pain_0 && result == 0){
             win( einsatz*35 );
         }
+        //Da die JButtons für die Zahlen 1-36 nicht gespeichert werden Zahl aus Button lesen und dann Ergebnis prüfen
         else if(ae.getSource() == ro_pain ){
             int number = Integer.parseInt( ae.getSource().toString() );
             if (number == result){
                 win( einsatz*35 );
             }
         }
+        //Wenn keine Bedingung erfüllt wurde hat der Spieler verloren
         else{
+            //und die loose Funktion wird aufgeruft
             loose(einsatz);
         }
+        //Für den ergebnisString wird außerdem noch die Farbe bestimmt
         String res_color = "";
         if (getColor( result ) == 0){
             res_color = "Rot";
@@ -101,6 +120,7 @@ public class Roulette extends SuperCasino implements ActionListener {
         else if(getColor( result ) == 1){
             res_color = "Schwarz";
         }
+        //Außerdem wird noch bestimmt ob die Zahl gerade, ungerade oder 0  ist
         String res_gerade = "";
         if (result/ 2 == 0 && result != 0){
             res_gerade = "gerade";
@@ -108,50 +128,80 @@ public class Roulette extends SuperCasino implements ActionListener {
         else{
             res_gerade = "ungerade";
         }
+        //Der ergebnisString wird dann gesetzt
         ergebnisString.setText("Gedrehte Zahl: "+result+" "+res_color+" "+res_gerade);
+        //und der Slider wird upgedatet
         gui.updateSlider();
     }
 
+    //Funktion welche aufgerufen wird wenn gewonnen wurde
     private void win(int winsum){
+        //Sound abspielen
         audioPlayer("win.wav", false);
+        //Warten bis der Sound abgespielt wurde
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Den welcome String in eine Gewinn Nachricht ändern
         welcomeString.setText( "Herzlichen Glückwunsch. Du hast "+winsum+"€ gewonnen");
+        //Geld aktualisieren
         gui.changeMoney( winsum );
     }
 
+    //Funktion welche aufgerufen wird wenn verloren wurde
     private void loose(int sum){
+        //Sound abspielen
         audioPlayer("loose.wav", false);
+        //Warten bis der Sound abgespielt wurde
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Den welcome String in eine Verlier Nachricht ändern
         welcomeString.setText( "Schade. Du hast "+sum+"€ verloren");
+        //Geld aktualisieren
         gui.changeMoney( -sum );
     }
 
     public java.util.List<Component> getGUIElements(){
+        //ArrayList für die gui Elemente initialisieren
         List<Component> guilist = new ArrayList<>();
+        //ergebnisString initialisieren, sowie Größe und Position setzen und zur Liste hinzufügen
         ergebnisString = new JLabel(  );
         ergebnisString.setSize( 300,10 );
         ergebnisString.setLocation( 50,200 );
         guilist.add( ergebnisString );
+        //Home Button initialisieren, Größe und Position setzen und zur Liste hinzufügen
         home = new JButton( "<-" );
         home.addActionListener( this );
         home.setSize( 25,25 );
         home.setLocation( 0,0 );
         guilist.add( home );
+        //welcomeString initialiseren, etc
         welcomeString = new JLabel("Herzlich Willkommen beim Roulette. Bitte setze auf ein Feld");
         welcomeString.setLocation( 150,10 );
         welcomeString.setSize( 500,15 );
         guilist.add( welcomeString );
+        //Button für die 0 initalisieren und Optionen setzen sowie zur Liste hinzufügen
         ro_pain_0 = new JButton( String.valueOf( 0 ) );
         ro_pain_0.setLocation(500,25);
         ro_pain_0.setSize( 225,25 );
         ro_pain_0.setBackground( Color.GREEN );
         ro_pain_0.setOpaque(true);
         ro_pain_0.addActionListener( this );
+        //Für ansprechendes Design und Ähnlichkeit zu einem echten Roulette Feld den Border entfernen
         ro_pain_0.setBorder(BorderFactory.createBevelBorder(0));
         guilist.add( ro_pain_0 );
+        //Für jede Zahl von 1-36 den Button erstellen und zur Liste hinzufügen. Durch die for Schleife werden die Buttons erstellt und durch eine Berechnung direkt richtig positioniert.
         for ( int zahl = 1; zahl <= 36; zahl ++ ) {
             ro_pain = new JButton( String.valueOf( zahl ) );
             ro_pain.setLocation( 500+((zahl-1)%3)*75, 50+(((int) Math.ceil(((zahl-1)/3)))*25) );
             ro_pain.setSize( 75,25 );
             ro_pain.setBorder(BorderFactory.createBevelBorder(0));
+            //Außerdem wird die entsprechende Farbe gesetzt
             if (getColor( zahl ) == 1){
                 ro_pain.setBackground( Color.RED );
             }
@@ -160,7 +210,9 @@ public class Roulette extends SuperCasino implements ActionListener {
                 ro_pain.setForeground( Color.WHITE );
             }
             ro_pain.setOpaque(true);
+            //Der ActionListener wird gesetzt
             ro_pain.addActionListener( this );
+            //und der Button wird zur Liste hinzugefügt
             guilist.add( ro_pain );
         }
         guilist.add( col1=robutton("1. Reihe", 500, 350, 75, 25,this) );
@@ -194,6 +246,7 @@ public class Roulette extends SuperCasino implements ActionListener {
         return guilist;
     }
 
+    //Funktion zum zurückgeben der Farbe für das jeweilige Feld. 2 steht für die 0 (grün), 1 für rot und 0 für schwarz
     public int getColor(int x){
         if (x <= 0 || x > 36){
             return 2;
