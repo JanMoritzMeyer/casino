@@ -131,106 +131,186 @@ public class BlackJack extends SuperCasino implements ActionListener{
         }
     }
 
+    //Funktion zum aufdecken der Karten vom Croupier
     private void aufdecken_crou(){
+        //X-Position der Karte im Fenster wieder auf 0 setzen
         cardx_crou = 0;
+        //Karten Objekte entfernen
         kartenobj_crou.clear();
+        //Für Jedes KartenObject, das richtige JLabel mit der entsprechenden Grafik erstellen
         for (Object cardnum: karten_crou){
+            //Kartennummer setzen
             int cardnum_int = (int) cardnum;
+            //Kartengrafik für die dazugehörige Nummer
             BlackJackCard card = new BlackJackCard( cardnum_int );
+            //Position der Karte setzen
             card.card.setLocation( cardx_crou,50 );
+            //Hinzufügen der Karte in die Liste
             kartenobj_crou.add( card.card );
+            //X-Position der Karte auf 100 erhöhen, damit diese nebeneinander angezeigt werden
             cardx_crou = cardx_crou + 100;
         }
+        //gui neuladen
         gui.reloadBlackJack();
+        //Funktion aufrufen in der der Gewinner ermittelt wird
         checkwin();
     }
 
+    //Funktion zum ziehen einer Karte des Croupiers
     private void karteziehen_crou(){
+        //Karte random ziehen
         int cardnum = random( 1,13 );
+        //Karten Wert erhalten
         int cardval = getValueofCard(cardnum,1);
+        //Karte zur Liste hinzufügen, damit diese am Ende aufgedeckt werden kann
         karten_crou.add( cardnum );
+        //Kartensumme aktualisieren
         kartensumme_crou = kartensumme_crou + cardval;
+        //BlackJack Card JLabel erhalten, welches die Rückseite einer Karte zeigt
         BlackJackCard card = new BlackJackCard( 14 );
+        //Position setzen
         card.card.setLocation( cardx_crou,50 );
+        //Karte zur Liste hinzufügen, damit diese angezeigt wird
         kartenobj_crou.add( card.card );
+        //Karten X-Position um 100 erhöhen
         cardx_crou = cardx_crou + 100;
     }
 
+    //Funktion zum ziehen einer Karte durch den Nutzer
     private void karteziehen(){
+        //Sound abspielen
         audioPlayer("card.wav", false);
+        //Warten bis der Sound abgespielt wurde
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //Karte ziehen
         int cardnum = random( 1,13 );
+        //Kartensumme aktualisieren
         kartensumme = kartensumme + getValueofCard(cardnum,0);
+        //JLabel für die Karte mit dem jeweiligen Bild beziehen
         BlackJackCard card = new BlackJackCard( cardnum );
+        //Position für die Karte setzen
         card.card.setLocation( cardx,175 );
+        //Karte zur Liste hinzufügen, damit sie angezeigt werden kann
         karten.add( card.card );
+        //GUI neu laden, damit die neue Karte angezeigt wird
         gui.reloadBlackJack();
+        //X-Position der Karte um 100 erhöhen
         cardx = cardx + 100;
-        if (kartensumme < 21){
+        //Wenn Kartensumme unter 21 ist nichts machen (weiterspielen) | Pro verwandeltes Ass wird das Limit um 10 erhöht, da die Karte dann 10 weniger zählt
+        if (kartensumme < (21 + asse_to1*10)){
 
         }
+        //Wenn Kartensumme mit verwandelten Assen unter 21 ist
         else if(kartensumme <= (21 + asse*10)){
+            //Ein Ass runterstufen
             asse_to1++;
         }
+        //Wenn die Kartensumme über 21 ist und kein Ass gezogen wurde
         else if (kartensumme > 21 && asse == 0){
+            //Karten aufdecken
             aufdecken_crou();
+            //Funktion zum verlieren aufrufen
             loose();
         }
     }
 
+    //Funktion zum überprüfen wer gewonnen hat
     private void checkwin(){
+        //Kartensummen ermitteln | Für jedes runtergestufte ass wird 10 abgezogen
         kartensumme_crou = kartensumme_crou - asse_crou_to1*10;
         kartensumme = kartensumme - asse_to1*10;
+        //Wenn der Spieler 21 hat, hat er gewonnen
         if(kartensumme == 21){
+            //Gewinn Funktion aufrufen
             won();
         }
-        else if(kartensumme_crou - 21 == kartensumme - 21){
+        //Wenn beide die gleiche Kartensumme haben ist es unentschieden
+        else if(kartensumme_crou == kartensumme){
+            //Untentschieden Funktion aufrufen
             draw();
         }
+        //Wenn man näher an der 21 ist als der Croupier hat an gewonnen
         else if(kartensumme_crou - 21 > kartensumme - 21){
             won();
         }
+        //Sonst verloren
         else {
             loose();
         }
     }
 
+    //Funktion welche die Aktionen für das gewinnen ausführt
     private void won(){
+        //Sound abspielen
         audioPlayer("win.wav", false);
+        //Warten bis der Sound abgespielt wurde
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Info Fenster für den Gewinn anzeigen
         JOptionPane.showMessageDialog(this, "Herzlich Glückwunsch. Du hast "+einsatz+" € gewonnen");
+        //Gewinn hinzufügen
         gui.changeMoney( einsatz );
+        //Wieder den HomeScreen aufrufen
         gui.initHome();
     }
 
+    //Funktion welche die Aktionen für ein unentschieden ausführt
     private void draw(){
+        //Sound abspielen
         audioPlayer("loose.wav", false);
+        //Warten bis der Sound abgespielt wurde
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Info Fenster anzeigen
         JOptionPane.showMessageDialog(this, "Unentschieden. Du bekommst deinen Einsatz zurück");
+        //HomeScreen aufrufen
         gui.initHome();
     }
 
+    //Funktionen welche die Aktionen für den Verlust ausführt
     private void loose(){
+        //Sound abspielen
         audioPlayer("loose.wav", false);
+        //Warten bis der Sound abgespielt wurde
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Wenn das Geld nach dem Verlust nicht unter 1€ ist, Info anzeigen und den HomeScreen laden. Unter 1 wird von GUI ein Fenster angezeigt
         if(!(gui.getMoney()-einsatz <= 0)){
             JOptionPane.showMessageDialog(this, "Du hast verloren. Viel Glück beim nächsten mal");
             gui.initHome();
         }
+        //Geld welches eingesetzt wurde abziehen
         gui.changeMoney( -einsatz );
     }
 
+    //Funktion welche die Komponenten für das Spiel zurückgibt
     public java.util.List<Component> getGUIElements(){
+        //Lokale Liste erstellen, damit diese unter anderem immer wieder leer ist und neu befüllt wird
         List<Component> guilist = new ArrayList<>();
 
+        //Karten vom Nutzer der Liste hinzufügen
         for (Component guielement:karten) {
             guilist.add( guielement );
         }
+        //Karten vom Croupier hinzufügen
         for (Component guielement:kartenobj_crou) {
             guilist.add( guielement );
         }
 
+        //Label für das Design initialisieren und der Liste hinzufügen
         croupier = new JLabel("Croupier Karten");
         croupier.setLocation( 0,25 );
         croupier.setSize( 100,25 );
@@ -241,6 +321,7 @@ public class BlackJack extends SuperCasino implements ActionListener{
         self.setSize( 100,25 );
         guilist.add( self );
 
+        //Buttons für die Aktionen initialisieren und der Liste hinzufügen
         bleiben = new JButton("aufdecken");
         bleiben.setLocation( 50,325 );
         bleiben.setSize( 100,50 );
@@ -253,6 +334,7 @@ public class BlackJack extends SuperCasino implements ActionListener{
         nehmen.addActionListener( this );
         guilist.add( nehmen );
 
+        //Hintergrund konfigurieren
         background = new JLabel("");
         background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
         background.setLocation( 0,0 );
@@ -260,13 +342,17 @@ public class BlackJack extends SuperCasino implements ActionListener{
         background.setBackground( Color.GREEN );
         guilist.add( background );
 
+        //Liste zurückgeben
         return guilist;
     }
 
+    //Funktion welche den Wert der Black Jack Karte zurückgibt. Je nach Owner wird außerdem die Anzhal der Asse erhöht
     private int getValueofCard(int number, int owner){
+        //Nummern 1-9 stehen für die Karten 2-10
         if (number < 10){
             return number + 1;
         }
+        //Nummer 10 für das Ass
         else if(number == 10) {
             if (owner == 0){
                 asse++;
@@ -276,6 +362,7 @@ public class BlackJack extends SuperCasino implements ActionListener{
             }
             return 11;
         }
+        //Die anderen Nummern für die Bild Karten
         else {
             return 10;
         }
