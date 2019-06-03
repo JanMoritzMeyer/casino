@@ -73,7 +73,7 @@ public abstract class SuperCasino extends Casino {
         }
     }
 
-    //Funktion welche ein JLabel mit dem background erstellt um Code Dublizierung zu vermeiden
+    //Funktion welche ein JLabel mit dem background erstellt um Code Duplizierung zu vermeiden
     public JLabel greenBackground(){
         JLabel background = new JLabel("");
         background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
