@@ -10,26 +10,37 @@ import java.util.List;
 
 public class Wuerfeln extends SuperCasino implements ActionListener{
 
+    //Buttons deklarieren welche für das setzen auf die Zahlenbereiche zuständig sind. Außerdem gibt es einen Button der auf den HomeScreen weiterleitet
     JButton button1 = new JButton();
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();
     JButton button5 = new JButton();
+    //Label für das Design. label1 ist der WillkommenString der unter anderem für die Anzeige des Gewinns oder Verlustes zuständig ist. label1, label2 und label3 sind für die Darstellung der Würfel zuständig
     JLabel label1 = new JLabel();
     JLabel label2 = new JLabel();
     JLabel label3 = new JLabel();
     JLabel label4 = new JLabel();
+    //GUI Objekt, damit auf das Geld Element und den Slider zugegriffen werden kann
     private GUI gui;
+    //boolean welcher sagt ob es das erste Spiel ist. Beim ersten Spiel wird ein Info Fenster angezeigt. Der Boolean ist protected damit GUI auf diesen zugreifen kann, da dort die Prüfung stattfindet
     protected boolean firstgame;
 
+    //Konstruktor
     public Wuerfeln(GUI gui){
+        //firstgame auf true setzen, damit die Info angezeigt wird
         firstgame = true;
+        //Verknüpfung auf GUI setzen
         this.gui = gui;
     }
 
+    //Funktion die aufgerufen wird, sobald ein Button geklickt wird
     public void actionPerformed (ActionEvent ae){
+        //Einsatz feststellen
         int einsatz = gui.slider1.getValue();
+        //Für die Buttons jeweils die Funktionen aufrufen
         if(ae.getSource() == this.button1){
+            //Würfel Funktion mit dem Augenzahl Bereich, dem Faktor und dem Einsatz aufrufen
             wuerfeln(3,6, 9, einsatz);
         }
         else if(ae.getSource() == this.button2){
@@ -42,19 +53,24 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
             wuerfeln(16,18, 20, einsatz);
         }
         else if(ae.getSource() == this.button5){
+            //HomeScreen aufrufen
             gui.initHome();
         }
     }
 
+    //Funktion welche die Komponenten für das Spiel zurückgibt
     public List<Component> getGUIElements(){
+        //leere Liste erstellen
         List<Component> guilist = new ArrayList<>();
 
+        //JLabel mit Erklärungstext erstellen. Größe und Position setzen sowie Text zentrieren
         label1 = new JLabel("Herzlich Willkommen beim Würfeln. Zum spielen wähle eine Augenzahl");
         label1.setLocation( 100, 50 );
         label1.setSize( 600,10);
         label1.setHorizontalAlignment(JLabel.CENTER);
         guilist.add( label1 );
 
+        //JLabel mit Würfelgrafik erstellen. Für den Anfang mit den Augenzahlen 1-3
         label2 = new JLabel("");
         label2.setIcon(scaleImage("dice_1.png",50,50));
         label2.setLocation( 250, 100 );
@@ -73,6 +89,7 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
         label4.setSize( 50,50);
         guilist.add( label4 );
 
+        //Buttons für die Augenzahlbereiche setzen. Text, Position, Größe und actionListener hinzufügen
         button1.setText("3-6 (x 9)");
         button1.setLocation( 100,200 );
         button1.setSize( 100,50 );
@@ -97,12 +114,14 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
         button4.addActionListener( this );
         guilist.add( button4 );
 
+        //Home Button
         button5.setText("<-");
         button5.setLocation( 10,10 );
         button5.setSize( 25,25 );
         button5.addActionListener( this );
         guilist.add( button5 );
 
+        //Liste zurückgeben
         return guilist;
     }
 
