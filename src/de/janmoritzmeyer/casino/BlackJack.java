@@ -213,8 +213,6 @@ public class BlackJack extends SuperCasino implements ActionListener{
         else if (kartensumme > 21 && asse == 0){
             //Karten aufdecken
             aufdecken_crou();
-            //Funktion zum verlieren aufrufen
-            loose();
         }
     }
 
