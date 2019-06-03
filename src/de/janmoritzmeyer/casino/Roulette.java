@@ -215,6 +215,7 @@ public class Roulette extends SuperCasino implements ActionListener {
             //und der Button wird zur Liste hinzugefügt
             guilist.add( ro_pain );
         }
+        //mit der angepassten Funktion für die JButtons die Buttons erstellen und zur Liste hinzufüge
         guilist.add( col1=robutton("1. Reihe", 500, 350, 75, 25,this) );
         guilist.add( col2=robutton("2. Reihe", 575, 350, 75, 25,this) );
         guilist.add( col3=robutton("3. Reihe", 650, 350, 75, 25,this) );
@@ -227,6 +228,7 @@ public class Roulette extends SuperCasino implements ActionListener {
         guilist.add( red=robutton("rot", 375, 200, 75, 50,this) );
         guilist.add( uneven=robutton("ungerade", 375, 250, 75, 50,this) );
         guilist.add( ue18=robutton("19-36", 375, 300, 75, 50,this) );
+        //JLabel mit den Gewinn Faktoren erstellen. Mit HTML für die Absätze und die Formatierung sorgen
         JLabel faktoren = new JLabel( "<html><body><h2>Auszahlungsquoten</h2>" +
                 "einzelne Zahl: x35<br>" +
                 "vertikale Reihe (ohne 0): x2<br>" +
@@ -236,13 +238,17 @@ public class Roulette extends SuperCasino implements ActionListener {
                 "schwarz/rot: x1<br>");
         faktoren.setLocation( 10,25 );
         faktoren.setSize( 200,150 );
+        //Die Faktoren zur Liste hinzufügen
         guilist.add( faktoren );
+        //Hintergrund setzen
         background = new JLabel("");
         background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
         background.setLocation( 0,0 );
         background.setSize( 800,400 );
         background.setBackground( Color.GREEN );
         guilist.add( background );
+
+        //Liste zurückgeben
         return guilist;
     }
 
@@ -251,6 +257,7 @@ public class Roulette extends SuperCasino implements ActionListener {
         if (x <= 0 || x > 36){
             return 2;
         }
+        //Für die jewiligen Zahlen die jewilige Farbe zurückgeben
         switch (x){
             case 1:
             case 3:
