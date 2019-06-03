@@ -13,7 +13,7 @@ import java.applet.*;
 
 // Klasse welche aus der JFrame Klasse erbt. Hier wird die de.janmoritzmeyer.casino.GUI erstellt
 
-public class GUI extends Casino implements ActionListener {
+public class GUI extends SuperCasino implements ActionListener {
     //Generelle Komponenten
     private int money;
     private JLabel moneyLabel;

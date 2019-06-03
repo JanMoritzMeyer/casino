@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BlackJack extends Casino implements ActionListener{
+public class BlackJack extends SuperCasino implements ActionListener{
 
     private LinkedList<Object> karten_crou;
     private LinkedList<Component> kartenobj_crou;

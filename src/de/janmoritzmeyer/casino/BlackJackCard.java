@@ -2,7 +2,7 @@ package de.janmoritzmeyer.casino;
 
 import javax.swing.*;
 
-public class BlackJackCard extends Casino {
+public class BlackJackCard extends SuperCasino {
     public JLabel card;
 
     public BlackJackCard(int number){

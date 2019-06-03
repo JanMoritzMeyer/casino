@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.List;
 
 
-public class Wuerfeln extends Casino implements ActionListener{
+public class Wuerfeln extends SuperCasino implements ActionListener{
 
     JButton button1 = new JButton();
     JButton button2 = new JButton();

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Roulette extends Casino implements ActionListener {
+public class Roulette extends SuperCasino implements ActionListener {
     private JLabel welcomeString;
     private JLabel ergebnisString;
     private JButton col1;
