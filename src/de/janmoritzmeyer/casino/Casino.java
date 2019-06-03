@@ -28,7 +28,9 @@ public class Casino extends JFrame {
         button.setSize( width, height );
         button.setLocation( xpos, ypos );
         button.setBackground( Color.GREEN );
+        button.setForeground( Color.BLACK );
         button.setOpaque(true);
+        button.setBorder(BorderFactory.createBevelBorder(0));
         button.addActionListener( actionListener );
         return button;
     }

@@ -203,7 +203,7 @@ public class GUI extends Casino implements ActionListener {
                 getContentPane().add(guielement);
             }
             if (wuerfelGame.firstgame){
-                JOptionPane.showMessageDialog(this, "Herzlich Willkommen beim Würfeln. Du kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
+                JOptionPane.showMessageDialog(this, "Herzlich Willkommen beim Würfeln. \nDu kannst unten die Augensumme auswählen und deinen Einsatz tätigen");
                 wuerfelGame.firstgame = false;
             }
         } else if (game == "b") {

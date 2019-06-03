@@ -120,11 +120,13 @@ public class Roulette extends Casino implements ActionListener {
         ro_pain_0.setBackground( Color.GREEN );
         ro_pain_0.setOpaque(true);
         ro_pain_0.addActionListener( this );
+        ro_pain_0.setBorder(BorderFactory.createBevelBorder(0));
         guilist.add( ro_pain_0 );
         for ( int zahl = 1; zahl <= 36; zahl ++ ) {
             ro_pain = new JButton( String.valueOf( zahl ) );
             ro_pain.setLocation( 500+((zahl-1)%3)*75, 50+(((int) Math.ceil(((zahl-1)/3)))*25) );
             ro_pain.setSize( 75,25 );
+            ro_pain.setBorder(BorderFactory.createBevelBorder(0));
             if (getColor( zahl ) == 1){
                 ro_pain.setBackground( Color.RED );
             }

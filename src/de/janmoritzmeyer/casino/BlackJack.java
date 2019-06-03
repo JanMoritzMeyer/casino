@@ -29,6 +29,7 @@ public class BlackJack extends Casino implements ActionListener{
     private int einsatz;
     private JLabel croupier;
     private JLabel self;
+    private JLabel background;
 
     public BlackJack(GUI gui) {
         this.gui = gui;
@@ -52,7 +53,7 @@ public class BlackJack extends Casino implements ActionListener{
         cardx_crou = 0;
         einsatz = 0;
         if (firstgame){
-            JOptionPane.showMessageDialog(this, "Herzlich Willkommen bei Black Jack. Das Ziel ist es einen Kartenwert von 21 zu erzielen. Bilder zählen 10, Die Zahlen den Zahlenwert und Asse 1 oder 11. Dein Kartenwert darf 21 nicht übersteigen");
+            JOptionPane.showMessageDialog(this, "Herzlich Willkommen bei Black Jack. \nDas Ziel ist es einen Kartenwert von 21 zu erzielen. \nBilder zählen 10, Die Zahlen den Zahlenwert und Asse 1 oder 11. \nDein Kartenwert darf 21 nicht übersteigen");
             firstgame = false;
         }
         if (!firstload){
@@ -200,17 +201,24 @@ public class BlackJack extends Casino implements ActionListener{
         self.setSize( 100,25 );
         guilist.add( self );
 
-        bleiben = new JButton("bleiben");
+        bleiben = new JButton("aufdecken");
         bleiben.setLocation( 50,325 );
         bleiben.setSize( 100,50 );
         bleiben.addActionListener( this );
         guilist.add( bleiben );
 
-        nehmen = new JButton( "nehmen" );
+        nehmen = new JButton( "Karte ziehen" );
         nehmen.setLocation( 150,325 );
         nehmen.setSize( 100,50 );
         nehmen.addActionListener( this );
         guilist.add( nehmen );
+
+        background = new JLabel("");
+        background.setIcon( scaleImage( "blackjack_background.jpg" , 800, 400 ));
+        background.setLocation( 0,0 );
+        background.setSize( 800,400 );
+        background.setBackground( Color.GREEN );
+        guilist.add( background );
 
         return guilist;
     }
