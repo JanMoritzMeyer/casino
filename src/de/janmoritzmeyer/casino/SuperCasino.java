@@ -1,9 +1,14 @@
 package de.janmoritzmeyer.casino;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import static javax.sound.sampled.AudioSystem.getClip;
 
 public abstract class SuperCasino extends Casino {
 
@@ -32,6 +37,28 @@ public abstract class SuperCasino extends Casino {
         button.setBorder(BorderFactory.createBevelBorder(0));
         button.addActionListener( actionListener );
         return button;
+    }
+
+    public void audioPlayer(String file, boolean loop){
+        AudioInputStream audioInputStream;
+        Clip clip;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/"+file).getAbsoluteFile());
+            clip = getClip();
+            clip.open(audioInputStream);
+            if(loop){
+                clip.loop( Clip.LOOP_CONTINUOUSLY);
+            }
+            else {
+                clip.start();
+            }
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
 }

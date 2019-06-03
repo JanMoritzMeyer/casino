@@ -126,6 +126,12 @@ public class BlackJack extends SuperCasino implements ActionListener{
     }
 
     private void karteziehen(){
+        audioPlayer("card.wav", false);
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int cardnum = random( 1,13 );
         kartensumme = kartensumme + getValueofCard(cardnum,0);
         BlackJackCard card = new BlackJackCard( cardnum );
@@ -163,17 +169,20 @@ public class BlackJack extends SuperCasino implements ActionListener{
     }
 
     private void won(){
+        audioPlayer("win.wav", false);
         JOptionPane.showMessageDialog(this, "Herzlich Glückwunsch. Du hast "+einsatz+" € gewonnen");
         gui.changeMoney( einsatz );
         gui.initHome();
     }
 
     private void draw(){
+        audioPlayer("loose.wav", false);
         JOptionPane.showMessageDialog(this, "Unentschieden. Du bekommst deinen Einsatz zurück");
         gui.initHome();
     }
 
     private void loose(){
+        audioPlayer("loose.wav", false);
         if(!(gui.getMoney()-einsatz <= 0)){
             JOptionPane.showMessageDialog(this, "Du hast verloren. Viel Glück beim nächsten mal");
             gui.initHome();

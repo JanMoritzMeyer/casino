@@ -1,14 +1,11 @@
 package de.janmoritzmeyer.casino;
 
 import java.awt.*;
-import java.io.File;
-import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.applet.*;
 
 
 // Klasse welche aus der JFrame Klasse erbt. Hier wird die de.janmoritzmeyer.casino.GUI erstellt
@@ -41,6 +38,8 @@ public class GUI extends SuperCasino implements ActionListener {
 
 
     public GUI(int x, int y){
+        super();
+        audioPlayer("background.wav", true);
         wuerfelGame = new Wuerfeln(this);
         blackjackGame = new BlackJack(this);
         rouletteGame = new Roulette(this);

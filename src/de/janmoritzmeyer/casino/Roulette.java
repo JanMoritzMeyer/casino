@@ -34,6 +34,14 @@ public class Roulette extends SuperCasino implements ActionListener {
     public void actionPerformed (ActionEvent ae){
         int result = random( 0,36 );
         int einsatz = gui.slider1.getValue();
+        if (ae.getSource() != home){
+            audioPlayer("roulette_spin.wav", false);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         if (ae.getSource() == home){
             gui.initHome();
         }
@@ -85,16 +93,32 @@ public class Roulette extends SuperCasino implements ActionListener {
         else{
             loose(einsatz);
         }
-        ergebnisString.setText("Gedrehte Zahl: "+result);
+        String res_color = "";
+        if (getColor( result ) == 0){
+            res_color = "Rot";
+        }
+        else if(getColor( result ) == 1){
+            res_color = "Schwarz";
+        }
+        String res_gerade = "";
+        if (result/ 2 == 0 && result != 0){
+            res_gerade = "gerade";
+        }
+        else{
+            res_gerade = "ungerade";
+        }
+        ergebnisString.setText("Gedrehte Zahl: "+result+" "+res_color+" "+res_gerade);
         gui.updateSlider();
     }
 
     private void win(int winsum){
+        audioPlayer("win.wav", false);
         welcomeString.setText( "Herzlichen Glückwunsch. Du hast "+winsum+"€ gewonnen");
         gui.changeMoney( winsum );
     }
 
     private void loose(int sum){
+        audioPlayer("loose.wav", false);
         welcomeString.setText( "Schade. Du hast "+sum+"€ verloren");
         gui.changeMoney( -sum );
     }
@@ -102,8 +126,8 @@ public class Roulette extends SuperCasino implements ActionListener {
     public java.util.List<Component> getGUIElements(){
         List<Component> guilist = new ArrayList<>();
         ergebnisString = new JLabel(  );
-        ergebnisString.setSize( 150,10 );
-        ergebnisString.setLocation( 100,200 );
+        ergebnisString.setSize( 300,10 );
+        ergebnisString.setLocation( 50,200 );
         guilist.add( ergebnisString );
         home = new JButton( "<-" );
         home.addActionListener( this );
@@ -131,7 +155,8 @@ public class Roulette extends SuperCasino implements ActionListener {
                 ro_pain.setBackground( Color.RED );
             }
             else {
-                ro_pain.setBackground( Color.GREEN );
+                ro_pain.setBackground( Color.BLACK );
+                ro_pain.setForeground( Color.WHITE );
             }
             ro_pain.setOpaque(true);
             ro_pain.addActionListener( this );

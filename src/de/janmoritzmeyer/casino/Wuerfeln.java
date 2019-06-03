@@ -1,8 +1,6 @@
 package de.janmoritzmeyer.casino;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -132,6 +130,12 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
     }
 
     private void wuerfeln(int min, int max, int factor, int einsatz) {
+        audioPlayer("dice.wav", false);
+        try {
+            Thread.sleep(1300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int wuerfel1 = random(1,6);
         int wuerfel2 = random(1,6);
         int wuerfel3 = random(1,6);
@@ -140,10 +144,12 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
         label3.setIcon( getImage(wuerfel2) );
         label4.setIcon( getImage(wuerfel3) );
         if (summe <= max && summe >= min){
+            audioPlayer("win.wav", false);
             gui.changeMoney( factor*einsatz );
             label1.setText( "Herzlichen Glückwunsch. Du hast "+factor*einsatz+"€ gewonnen" );
         }
         else {
+            audioPlayer("loose.wav", false);
             gui.changeMoney( -einsatz );
             label1.setText( "Schade, vielleicht klappt es nächstes mal" );
         }
