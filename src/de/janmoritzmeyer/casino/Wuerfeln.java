@@ -126,9 +126,7 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
     }
 
 
-
-
-
+    //Funktion welche das jeweilige Bild für die Würfelzahl zurückgibt. Rest ist selbsterklären
     private ImageIcon getImage(int x){
         switch (x){
             case 1:
@@ -148,30 +146,44 @@ public class Wuerfeln extends SuperCasino implements ActionListener{
         }
     }
 
+    //Funktion fürs Würfeln
     private void wuerfeln(int min, int max, int factor, int einsatz) {
+        //Spielt Würfel Sound ab
         audioPlayer("dice.wav", false);
+        //und wartet
         try {
             Thread.sleep(1300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //es wird 3 mal gewürfelt
         int wuerfel1 = random(1,6);
         int wuerfel2 = random(1,6);
         int wuerfel3 = random(1,6);
+        //und die Summe ermittelt
         int summe = wuerfel1 + wuerfel2 + wuerfel3;
+        //Dann werden die JLabels mit den entsprechenden Bildern versehen
         label2.setIcon( getImage(wuerfel1) );
         label3.setIcon( getImage(wuerfel2) );
         label4.setIcon( getImage(wuerfel3) );
+        //Gewinn Prüfung
         if (summe <= max && summe >= min){
+            //Gewinn Sound abspielen
             audioPlayer("win.wav", false);
+            //Geld verändern
             gui.changeMoney( factor*einsatz );
+            //Text setzen
             label1.setText( "Herzlichen Glückwunsch. Du hast "+factor*einsatz+"€ gewonnen" );
         }
         else {
+            //Verlier Sound abspielen
             audioPlayer("loose.wav", false);
+            //Geld verändern
             gui.changeMoney( -einsatz );
+            //Text setzen
             label1.setText( "Schade, vielleicht klappt es nächstes mal" );
         }
+        //Slider updaten
         gui.updateSlider();
     }
 }
