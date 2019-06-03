@@ -10,12 +10,17 @@ import java.util.List;
 
 public class BlackJack extends SuperCasino implements ActionListener{
 
+    //Listen für die Karten der Croupier
     private LinkedList<Object> karten_crou;
     private LinkedList<Component> kartenobj_crou;
+    //GUI Verknüpfung
     private GUI gui;
+    //JButtons für ziehen und aufdecken
     private JButton bleiben;
     private JButton nehmen;
+    //Liste für die Karten
     private List<Component> karten;
+    //Integer für die Kartensummen, die Anzahl der Asse und die "verwandelten" Asse
     private int kartensumme;
     private int kartensumme_crou;
     private int asse;
@@ -24,22 +29,33 @@ public class BlackJack extends SuperCasino implements ActionListener{
     private int asse_crou_to1;
     private int cardx;
     private int cardx_crou;
+    //Booleans welche für das laden und darstellen der Info Fenster verantwortlich sind
     private boolean firstload;
     private boolean firstgame;
+    //integer für den Einsatz
     private int einsatz;
+    //JLabel für das Design des Fensters
     private JLabel croupier;
     private JLabel self;
     private JLabel background;
 
+    //Konstruktor
     public BlackJack(GUI gui) {
+        //Verknüpfen der gui
         this.gui = gui;
+        //Setzen des Booleans, damit das Spiel noch nicht gestartet wird
         firstload = true;
+        //Funktion aufrufen, welche die Variablen initialisiert
         startnewGame();
+        //Boolean fürs erste laden auf false setzen
         firstload = false;
+        //Boolean fürs erste game auf true setzen, damit das Info Fenster angezeigt wird
         firstgame = true;
     }
 
+    //Funktion zum starten eines neuen Spiels
     public void startnewGame(){
+        //initialisieren der Variablen. Sorgt unter anderem davor, dass das vorherige Spiel gelöscht wird
         karten = new ArrayList<>();
         kartensumme = 0;
         kartensumme_crou = 0;
@@ -53,11 +69,14 @@ public class BlackJack extends SuperCasino implements ActionListener{
         cardx_crou = 0;
         einsatz = 0;
         if (firstgame){
+            //Erklärung zeigen, falls es das erste Spiel ist
             JOptionPane.showMessageDialog(this, "Herzlich Willkommen bei Black Jack. \nDas Ziel ist es einen Kartenwert von 21 zu erzielen. \nBilder zählen 10, Die Zahlen den Zahlenwert und Asse 1 oder 11. \nDein Kartenwert darf 21 nicht übersteigen");
             firstgame = false;
         }
+        //Wenn es nicht das erste Laden ist, Einsatz abfragen, und die ersten Karten ziehen
         if (!firstload){
             Object antwort = JOptionPane.showInputDialog(null, "Wieviel € möchtest du setzen? Min. 1€ Max. "+this.gui.getMoney()+"€ (Nur die Zahl eingeben)");
+            //Wenn der Einsatz ungültig ist, Einsatz auf 0€ setzen
             try {
                 einsatz = Integer.parseInt((String) antwort);
                 if (einsatz > gui.getMoney() || einsatz < 0){
@@ -66,35 +85,47 @@ public class BlackJack extends SuperCasino implements ActionListener{
             } catch (Exception e) {
                 einsatz = 0;
             }
+            //Croupier Karte ziehen lassen
             karteziehen_crou();
+            //Erste Karte ziehen
             karteziehen();
         }
     }
 
+    //Funktion die aufgerufen wird, sobald ein Button geklickt wird
     public void actionPerformed (ActionEvent ae){
+        //Logik für den Coupier, damit dieser nach den Regeln zieht und dann seine Karten aufdeckt
         if(ae.getSource() == this.bleiben){
+            //Zieht bis seine Karten den Wert von 17 haben
             int max = 17;
+            //Karten ziehen bis aus der Schleife ausgebrochen wird
             while (true){
                 while (kartensumme_crou < max){
                     karteziehen_crou();
                     gui.reloadBlackJack();
                 }
+                //Wenn der Wert über 21 ist, prüfen ob er Asse hat, damit diese dann mit 1 gerechnet werden
                 if (kartensumme_crou > 21 && asse_crou != 0){
                     max = max + 10;
                     asse_crou_to1++;
                 }
+                //Wenn keine Asse verfügbar sind aus Schleife gehen
                 else if(asse_crou == 0){
                     break;
                 }
+                //Wenn alle Asse "verwandelt" wurden aus der Schleife gehen
                 else if(asse_crou == asse_crou_to1){
                     break;
                 }
+                //Wenn der Croupier 17 oder mehr an Wert hat, aus der Schleife gehen
                 else if(kartensumme_crou >= 17){
                     break;
                 }
             }
+            //Karten vom Croupier aufdecken
             aufdecken_crou();
         }
+        //Wenn Button fürs Karten ziehen gedrückt wird, Funktion fürs Karten ziehen aufrufen
         else if(ae.getSource() == this.nehmen){
             karteziehen();
         }
